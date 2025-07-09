@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<title>Login com redirecionamento</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+  form {
+    background: white;
+    padding: 25px 35px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #ccc;
+    text-align: center;
+  }
+  input {
+    display: block;
+    margin: 15px auto;
+    padding: 10px;
+    width: 240px;
+    font-size: 16px;
+  }
+  button {
+    padding: 10px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+  }
+  #msg {
+    margin-top: 12px;
+    font-weight: bold;
+  }
+
+  /* Estilo do botão fixo */
+  #xssButton {
+    position: fixed;
+    top: 1px;
+    right: 1px;
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 1px 1px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  /* Estilo do modal (janelinha) */
+  #xssModal {
+    display: none; /* escondido por padrão */
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  #xssModalContent {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    font-family: monospace;
+    white-space: pre-wrap;
+    box-shadow: 0 0 15px #444;
+    position: relative;
+  }
+  #closeModal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: #e63946;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 2px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<form onsubmit="return validarLogin()">
+  <h2>Login Simples</h2>
+  <input type="text" id="usuario" placeholder="Usuário" />
+  <input type="password" id="senha" placeholder="Senha" />
+  <button type="submit">Entrar</button>
+  <div id="msg"></div>
+</form>
+
+<!-- Botão fixo que abre o modal -->
+<button id="xssButton">Código XSS</button>
+
+<!-- Modal -->
+<div id="xssModal">
+  <div id="xssModalContent">
+    <button id="closeModal">&times;</button>
+    <h3>Codigo pra hackear a nasa:</h3>
+    <code>
+        console.log(login);
+        console.log(password);
+        
+    </code>
+  </div>
+</div>
+
+<script>
+const login = "Ruan";
+const password = "Marcos";
+
+function validarLogin() {
+  const usuarioDigitado = document.getElementById("usuario").value;
+  const senhaDigitada = document.getElementById("senha").value;
+  const msg = document.getElementById("msg");
+
+  if (usuarioDigitado === login && senhaDigitada === password) {
+    window.location.href = "parabens.html";
+    return false;
+  } else {
+    msg.style.color = "red";
+    msg.textContent = "Usuário ou senha incorretos.";
+    return false;
+  }
+}
+
+// Controle do modal
+const xssButton = document.getElementById('xssButton');
+const xssModal = document.getElementById('xssModal');
+const closeModal = document.getElementById('closeModal');
+
+xssButton.addEventListener('click', () => {
+  xssModal.style.display = 'flex';
+});
+
+closeModal.addEventListener('click', () => {
+  xssModal.style.display = 'none';
+});
+
+// Fecha modal clicando fora do conteúdo
+xssModal.addEventListener('click', (e) => {
+  if (e.target === xssModal) {
+    xssModal.style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
